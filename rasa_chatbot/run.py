@@ -4,7 +4,7 @@ import json
 url = "http://localhost:5005/webhooks/rest/webhook"
 payload = {
     "sender": "user", 
-    "message": "What\'s a good venue"
+    "message": "Hello"
 }
 headers = {
     'Content-Type': 'application/json'
