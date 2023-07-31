@@ -9,28 +9,5 @@ pipeline {
                 git branch: 'main', url: /// repo
             }
         }
-        stage('Building image') {
-            steps{
-                script {
-                    dockerImage = docker.build("${dockerImage}:${env.BUILD_NUMBER}")
-                }
-            }
-        }
-        stage('Pushing image') {
-            steps{
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'your-dockerhub-credentials') {
-                        dockerImage.push("${env.BUILD_NUMBER}")
-                        dockerImage.push("latest")
-                    }
-                }
-            }
-        }
-        stage('Deploying image') {
-            steps{
-                sh 'kubectl apply -f deploy.yaml'
-                sh 'kubectl apply -f service.yaml'
-            }
-        }
-    }
+        
 }
