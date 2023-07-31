@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    environment {
+        dockerImage = 'ayoola17/rasa_chatbot'
+    }
+    stages {
+        stage('Cloning Git') {
+            steps {
+                git branch: 'main', url: /// repo
+            }
+        }
+        
+        }
+    }
+
