@@ -15,7 +15,7 @@ to chat with the rasa chatbot send a post request to the endpoint at `http://loc
 - build the docker image with docker compose up
 - make changes in the docker container
 - push image to docker registry 
-- deploy in kubernetes to kubernetes dir run `kubectl apply -f deployment.yaml` and `kubectl apply -f service.yaml`
+- deploy in kubernetes to kubernetes dir run `kubectl apply -f deployment.yaml` and `kubectl apply -f service.yaml` and `kubectl port-forward service/rasa-chatbot-service 5005:5005`
 
 ## check status progress of deployment and service
 `kubectl get deployments`
