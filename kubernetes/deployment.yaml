@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
       - name: rasa-chatbot-container
-        image: ayoola17/rasa_chatbot  # Replace with the name of your Docker image
+        image: ayoola17/rasa_chatbot:v1.0  # Replace with the name of your Docker image
+        imagePullPolicy: Always
         ports:
         - containerPort: 5005  # Make sure this matches the port exposed in your Dockerfile

@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://192.168.65.4:32582/webhooks/rest/webhook"
+url = "http://10.110.220.228:30648/webhooks/rest/webhook"
 payload = {
     "sender": "user", 
     "message": "sad"
