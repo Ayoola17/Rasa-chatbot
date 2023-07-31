@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rasa-chatbot-deployment
+spec:
+  replicas: 1  # You can adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: rasa-chatbot
+  template:
+    metadata:
+      labels:
+        app: rasa-chatbot
+    spec:
+      containers:
+      - name: rasa-chatbot-container
+        image: ayoola17/rasa_chatbot  # Replace with the name of your Docker image
+        ports:
+        - containerPort: 5005  # Make sure this matches the port exposed in your Dockerfile

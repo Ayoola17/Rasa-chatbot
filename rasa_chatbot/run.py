@@ -1,10 +1,10 @@
 import requests
 import json
 
-url = "http://localhost:5005/webhooks/rest/webhook"
+url = "http://192.168.65.4:32582/webhooks/rest/webhook"
 payload = {
     "sender": "user", 
-    "message": "Hello"
+    "message": "sad"
 }
 headers = {
     'Content-Type': 'application/json'

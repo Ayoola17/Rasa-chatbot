@@ -1,0 +1,13 @@
+version: '3.0'
+services:
+  ubuntu_dev:
+    build: .
+    ports:
+      - "5005-5055:5005-5055"
+    volumes:
+      - .:/app
+    working_dir: /app
+    tty: true
+    restart: always
+
+  

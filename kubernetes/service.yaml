@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasa-chatbot-service
+spec:
+  selector:
+    app: rasa-chatbot
+  ports:
+  - protocol: TCP
+    port: 5005  # The port you want to expose on the service
+    targetPort: 5005  # The port your application is listening on inside the container
+  type: NodePort  # Use LoadBalancer to expose the service externally (requires LoadBalancer support from your Kubernetes provider)

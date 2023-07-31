@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rasa-server
+spec:
+  selector:
+    app: rasa-server
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5005
