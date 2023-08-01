@@ -37,7 +37,7 @@ Click on the "Available" tab and type the plugin you want to install
 ## connecting jenkins to docker registery
 make sure the docker plug-in is installed before you run
 - go to the jenkins dashboard -> credential -> system  then click on global credentials
-- Add credential in the kind dropdown menu select username with password.
+- Add credential in the kind dropdown menu select username with password. remember to change the docker username in kubernetes/development.yaml file.
 - in the scope drop down menu select global
 - Enter your dockerhub username and password 
 - in the id fields you enter a name for this credential to reference it in the pipeline in this case we are using `docker-hub-credentials`
