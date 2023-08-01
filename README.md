@@ -59,4 +59,29 @@ Create a Jenkins Credential for Kubernetes:
 - You can either copy and paste the content of your kubeconfig file into the Kubeconfig field or use the Kubeconfig file field to point to the location of the file.
 - Give this credential an ID (for instance, kubeconfig) that will be used in your Jenkins pipeline script.
 
+## Configure GitHub for jeenkins if jenkins runs in cloud
+
+In your GitHub repository:
+
+- Go to the "Settings" tab.
+- Click on "Webhooks".
+- Click "Add webhook".
+- For "Payload URL", input http://<your-jenkins-server>/github-webhook/. This tells GitHub where to send webhook payloads.
+- Set "Content type" to application/json.
+- Set "Which events would you like to trigger this webhook?" to "Just the push event".
+- Click "Add webhook".
+- Create a Jenkins Pipeline Job
+
+
 ## Running the cicd pipeline
+
+In your Jenkins dashboard, click "New Item".
+Name the job, choose "Pipeline", and click "OK".
+Under "General", check "GitHub project" and enter your project URL.
+Under "Build Triggers", select "GitHub hook trigger for GITScm polling". This is to trigger the pipeline job for each commit pushed to the main branch.
+Under "Pipeline", select "Pipeline script from SCM" for the "Definition".
+For the "SCM", select "Git".
+In "Repository URL", put the URL of your GitHub repository.
+In "Branch Specifier", put */main to build the main branch.
+Under "Script Path", enter the path to your Jenkinsfile in your repository.
+Click "Save".
