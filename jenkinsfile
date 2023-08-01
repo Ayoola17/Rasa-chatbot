@@ -30,7 +30,7 @@ pipeline {
 
         stage('Deploying image') {
             steps {
-                step([$class: 'KubernetesDeploy', kubeconfigId: 'kubeconfig', configs: 'kubernetes/*.yaml', enableConfigSubstitution: true])
+                step([$class: 'KubernetesDeploy', kubeconfigId: 'kubenetesconfig', configs: 'kubernetes/*.yaml', enableConfigSubstitution: true])
                 }
             }
 
