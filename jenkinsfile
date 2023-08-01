@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    environment {
+        dockerImage = 'ayoola/rasa_chatbot'
+    }
+    stages {
+        stage('Cloning Git') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ayoola17/rasa-ci_cd.git'
+            }
+        }
+        stage('Building image') {
+            steps{
+                script {
+                    dockerImage = docker.build("${dockerImage}:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+        stage('Pushing image') {
+            steps{
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push("latest")
+                    }
+                }
+            }
+        }
+
+
+        stage('Deploying image') {
+            steps {
+                step([$class: 'KubernetesDeploy', kubeconfigId: 'kubeconfig', configs: 'kubernetes/*.yaml', enableConfigSubstitution: true])
+                }
+            }
+
+    }
+}
