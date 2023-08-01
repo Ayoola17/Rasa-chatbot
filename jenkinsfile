@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment {
-        dockerImage = 'ayoola17/rasa_chatbot'
+        dockerComposeFile = 'docker-compose.yml'
+        imageName = 'ayoola17/rasa_chatbot'
+        imageTag = "${env.BUILD_NUMBER}"
     }
     stages {
         stage('Cloning Git') {
@@ -12,28 +14,26 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    dockerImage = docker.build("${dockerImage}:${env.BUILD_NUMBER}")
+                    sh "docker-compose -f ${dockerComposeFile} build"
+                    sh "docker tag ${imageName} ${imageName}:${imageTag}"
                 }
             }
         }
         stage('Pushing image') {
             steps{
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        dockerImage.push("${env.BUILD_NUMBER}")
-                        dockerImage.push("latest")
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+                        sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
+                        sh "docker push ${imageName}:${imageTag}"
+                        sh "docker push ${imageName}:latest"
                     }
                 }
             }
         }
-
-
         stage('Deploying image') {
             steps {
                 step([$class: 'KubernetesDeploy', kubeconfigId: 'kubenetesconfig', configs: 'kubernetes/*.yaml', enableConfigSubstitution: true])
-                }
             }
-
+        }
     }
 }
-
