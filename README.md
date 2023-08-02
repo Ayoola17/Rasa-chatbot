@@ -26,14 +26,19 @@ run the test.py script to test
 - to enter the jenkins admin password go to the jenkins log look for the following line `This may also be found at: /var/jenkins_home/secrets/initialAdminPassword` and copy the key above it
 - input your details username password and email
 - once you are logged in to the jenkins server install all the neccessay plugin
-plugins needed for this project are `docker`, `git` and `kubernetes`, `kubernetes credentials provider`. you can choosse the recommend plugin installation at the prompt.
+plugins needed for this project are `docker`, `git` and `kubernetes`. you can choosse the recommend plugin installation at the prompt.
 Go to your Jenkins dashboard.
 
 Click on "Manage Jenkins" in the left sidebar.
 Click on "Manage Plugins".
-Click on the "Available" tab and type the plugin you want to install
+Click on the "Available" tab and type the plugin you want to select install without restatr
 - you may  have to restart jenkins to make the changes work
 
+To connect jenkins with docker desktop navigate to manage `jenkins` -> `Nodes and clouds` -> select `clouds` on the left
+- select docker
+- enter `unix:///var/run/docker.sock` as the Docker Host url 
+- test connection and select enabled
+- save and apply settings
 ## connecting jenkins to docker registery
 make sure the docker plug-in is installed before you run
 - go to the jenkins dashboard -> credential -> system  then click on global credentials
@@ -60,7 +65,7 @@ Create a Jenkins Credential for Kubernetes:
 - Give this credential an ID (for instance, kubeconfig) that will be used in your Jenkins pipeline script.
 
 ## Configure GitHub for jeenkins if jenkins runs in cloud
-
+you can skip this part for now since we are building locally
 In your GitHub repository:
 
 - Go to the "Settings" tab.
@@ -72,16 +77,27 @@ In your GitHub repository:
 - Click "Add webhook".
 - Create a Jenkins Pipeline Job
 
+# installing docker-compose binary on jenkins server
+open a terminal from the jenkins container then run the following codes
+- `curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
+- `chmod +x /usr/local/bin/docker-compose`
 
 ## Running the cicd pipeline
 
-In your Jenkins dashboard, click "New Item".
-Name the job, choose "Pipeline", and click "OK".
-Under "General", check "GitHub project" and enter your project URL.
-Under "Build Triggers", select "GitHub hook trigger for GITScm polling". This is to trigger the pipeline job for each commit pushed to the main branch.
-Under "Pipeline", select "Pipeline script from SCM" for the "Definition".
-For the "SCM", select "Git".
-In "Repository URL", put the URL of your GitHub repository.
-In "Branch Specifier", put */main to build the main branch.
-Under "Script Path", enter the path to your Jenkinsfile in your repository.
-Click "Save".
+- In your Jenkins dashboard, click "New Item".
+- Name the job, choose "Pipeline", and click "OK".
+- Under "General", check "GitHub project" and enter your project URL.
+- Under "Build Triggers", select "GitHub hook trigger for GITScm polling". This is to trigger the pipeline job for each commit pushed to the main branch.
+- Under "Pipeline", select "Pipeline script from SCM" for the "Definition".
+- For the "SCM", select "Git".
+- In "Repository URL", put the URL of your GitHub repository.
+- In "Branch Specifier", put */main to build the main branch.
+- Under "Script Path", enter the path to your Jenkinsfile in your repository just type `jenkinsfile` all small case.
+- Click "Apply" and "Save".
+
+#### Note
+since we are deploying loacally we can use the webhook so we have to trigger the pipeline manually
+
+go to jenkins Dashboard and click `Build now` This will run the pipeline
+
+in production we will have to include a test stage before we push the image to docker hub
