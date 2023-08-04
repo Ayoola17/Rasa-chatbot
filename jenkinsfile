@@ -4,9 +4,6 @@ pipeline {
         dockerComposeFile = 'docker-compose.yml'
         imageName = 'ayoola17/rasa_chatbot'
         imageTag = "${env.BUILD_NUMBER}"
-        DOCKER_CERT_PATH = ''
-        DOCKER_TLS_VERIFY = ''
-        DOCKER_HOST = 'tcp://localhost:2375'
     }
     stages {
         stage('Cloning Git') {
