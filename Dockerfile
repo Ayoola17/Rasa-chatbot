@@ -30,7 +30,6 @@ EXPOSE 5005-5055
 
 # Create a startup script to run multiple commands
 RUN echo '#!/bin/bash' >> /start.sh \
-    && echo 'rasa train' >> /start.sh \
     && echo 'rasa run -m models --enable-api --cors "*"' >> /start.sh \
     && chmod +x /start.sh
 
