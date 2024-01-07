@@ -16,7 +16,8 @@ run `rasa train`
 
 positional arguments:
   {init,run,shell,train,interactive,telemetry,test,visualize,data,export,x,evaluate}
-                        Rasa commands
+                        Rasa commands:
+                        
     - init                Creates a new project, with example training data, actions, and config files.
     - run                 Starts a Rasa server with your trained model.
     - shell               Loads your trained model and lets you talk to your assistant on the command line.
