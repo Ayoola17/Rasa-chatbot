@@ -7,99 +7,25 @@ run `docker-compose up --build` to run containers
 
 to chat with the rasa chatbot send a post request to the endpoint at `http://localhost:5005/webhooks/rest/webhook` or run the run.py script
 
-# runing rasa_chatbot program manually in kubernetes
-- build the docker image with docker compose up
-- make changes in the docker container
-- push image to docker registry 
-- deploy in kubernetes to kubernetes dir run `kubectl apply -f deployment.yaml` and `kubectl apply -f service.yaml` and `kubectl port-forward service/rasa-chatbot-service 5005:5005`
 
-## check status progress of deployment and service
-`kubectl get deployments`
-`kubectl get pods`
-`kubectl get services`
+rasa shell --port 5090 exit
 
-run the test.py script to test
-## starting the jenkins serve
-- cd to the jenkins dir in the root dir
-- run docker-compose up. This will spin up a jenkins server in a docker container at port 8080
-- go to localhost:8080 it might take a while to load up
-- to enter the jenkins admin password go to the jenkins log look for the following line `This may also be found at: /var/jenkins_home/secrets/initialAdminPassword` and copy the key above it
-- input your details username password and email
-- once you are logged in to the jenkins server install all the neccessay plugin
-plugins needed for this project are `docker`, `git` and `kubernetes`. you can choosse the recommend plugin installation at the prompt.
-Go to your Jenkins dashboard.
+To train 
+Attach shell to rasa ubuntu image
+run `rasa train`
 
-Click on "Manage Jenkins" in the left sidebar.
-Click on "Manage Plugins".
-Click on the "Available" tab and type the plugin you want to select install without restatr
-- you may  have to restart jenkins to make the changes work
-
-To connect jenkins with docker desktop navigate to manage `jenkins` -> `Nodes and clouds` -> select `clouds` on the left
-- select docker
-- enter `unix:///var/run/docker.sock` as the Docker Host url 
-- test connection and select enabled
-- save and apply settings
-## connecting jenkins to docker registery
-make sure the docker plug-in is installed before you run
-- go to the jenkins dashboard -> credential -> system  then click on global credentials
-- Add credential in the kind dropdown menu select username with password.
-- in the scope drop down menu select global
-- Enter your dockerhub username and password 
-- in the id fields you enter a name for this credential to reference it in the pipeline in this case we are using `docker-hub-credentials`
-- enter a description in the description field
-- click `ok` and `apply`
-
-## connecting jenkins to local kubernetes cluster
-To connect Jenkins to your local Kubernetes cluster, you'll need to provide Jenkins with the credentials and configuration information it needs to interact with your cluster. Here's how you can set this up:
-
-Get the Kubernetes configuration: The first thing you need is your Kubernetes configuration file (kubeconfig). For a local Kubernetes cluster (like Docker Desktop), the kubeconfig file is usually located at ~/.kube/config on your local machine.
- run  C:\Users\<your-username>\.kube\config to open the file replace <your-username> with your pc username assuming you are on a windows operating system.
-
-Create a Jenkins Credential for Kubernetes:
-
-- Navigate to Jenkins dashboard -> Manage Jenkins -> Manage Credentials.
-- Click on (global) under Stores scoped to Jenkins.
-- Click on Add Credentials.
-- In the Kind dropdown, select Kubernetes configuration (kubeconfig).
-- You can either copy and paste the content of your kubeconfig file into the Kubeconfig field or use the Kubeconfig file field to point to the location of the file.
-- Give this credential an ID (for instance, kubeconfig) that will be used in your Jenkins pipeline script.
-
-## Configure GitHub for jeenkins if jenkins runs in cloud
-you can skip this part for now since we are building locally
-In your GitHub repository:
-
-- Go to the "Settings" tab.
-- Click on "Webhooks".
-- Click "Add webhook".
-- For "Payload URL", input http://<your-jenkins-server>/github-webhook/. This tells GitHub where to send webhook payloads.
-- Set "Content type" to application/json.
-- Set "Which events would you like to trigger this webhook?" to "Just the push event".
-- Click "Add webhook".
-- Create a Jenkins Pipeline Job
-
-# installing docker-compose binary on jenkins server
-open a terminal from the jenkins container then run the following codes
-- `curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
-- `chmod +x /usr/local/bin/docker-compose`
-
-## Running the cicd pipeline
-
-- In your Jenkins dashboard, click "New Item".
-- Name the job, choose "Pipeline", and click "OK".
-- Under "General", check "GitHub project" and enter your project URL.
-- Under "Build Triggers", select "GitHub hook trigger for GITScm polling". This is to trigger the pipeline job for each commit pushed to the main branch.
-- Under "Pipeline", select "Pipeline script from SCM" for the "Definition".
-- For the "SCM", select "Git".
-- In "Repository URL", put the URL of your GitHub repository.
-- In "Branch Specifier", put */main to build the main branch.
-- Under "Script Path", enter the path to your Jenkinsfile in your repository just type `jenkinsfile` all small case.
-- Click "Apply" and "Save".
-
-#### Note
-since we are deploying loacally we can use the webhook so we have to trigger the pipeline manually
-
-go to jenkins Dashboard and click `Build now` This will run the pipeline
-
-in production we will have to include a test stage before we push the image to docker hub
-
-
+positional arguments:
+  {init,run,shell,train,interactive,telemetry,test,visualize,data,export,x,evaluate}
+                        Rasa commands
+    init                Creates a new project, with example training data, actions, and config files.
+    run                 Starts a Rasa server with your trained model.
+    shell               Loads your trained model and lets you talk to your assistant on the command line.
+    train               Trains a Rasa model using your NLU data and stories.
+    interactive         Starts an interactive learning session to create new training data for a Rasa model by chatting.
+    telemetry           Configuration of Rasa Open Source telemetry reporting.
+    test                Tests Rasa models using your test NLU data and stories.
+    visualize           Visualize stories.
+    data                Utils for the Rasa training files.
+    export              Export conversations using an event broker.
+    x                   Run a Rasa server in a mode that enables connecting to Rasa Enterprise as the config endpoint.
+    evaluate            Tools for evaluating models.

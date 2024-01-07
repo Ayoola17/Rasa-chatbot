@@ -89,3 +89,32 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: order_inquiry
+  examples: | 
+    - can you help me with my order?
+    - i need help with my order?
+    - are you able to help me with my order?
+
+
+- intent: order_response
+  examples: |
+    - how can i help you with your order?
+    - yes, i can help you with your order
+    - i understand you need help with your order
+    - can you provide your order number
+
+- intent: order_delivery_inquiry
+  examples: |
+    - when will my order be delivered
+    - i can't find my order but the tracking status as changed to delivered
+    - i  got the wrong order
+
+- intent: order_delivery_response
+  examples: |
+    - your order has been shipped
+    - I can't help you with your order at the moment pls check again in 12 hours
+    - your order will be delivered in 2 days
+    - your can return the wrong order at any post office
+    - if you can't find your delivered order you can ask you neighbors or check around your house
+

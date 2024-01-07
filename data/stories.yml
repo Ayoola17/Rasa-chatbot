@@ -28,3 +28,17 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: Order Inquiry and Response Path
+  steps:
+  - intent: order_inquiry
+  - action: utter_ask_order_number
+  - intent: order_response
+  - action: utter_help_with_order
+
+- story: Order Delivery Inquiry and Response Path
+  steps:
+  - intent: order_delivery_inquiry
+  - action: utter_check_delivery_status
+  - intent: order_delivery_response
+  - action: utter_provide_delivery_info

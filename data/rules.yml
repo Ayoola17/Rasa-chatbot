@@ -11,3 +11,13 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule: Provide Help with Order
+  steps:
+  - intent: order_inquiry
+  - action: utter_ask_order_number
+
+- rule: Provide Delivery Information
+  steps:
+  - intent: order_delivery_inquiry
+  - action: utter_check_delivery_status

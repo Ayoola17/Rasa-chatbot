@@ -8,6 +8,10 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - order_inquiry
+  - order_response
+  - order_delivery_inquiry
+  - order_delivery_response
 
 responses:
   utter_greet:
@@ -28,6 +32,23 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+  utter_ask_order_number:
+  - text: "Can you provide your order number?"
+
+  utter_help_with_order:
+  - text: "How can I help you with your order?"
+
+  utter_check_delivery_status:
+  - text: "Let me check the delivery status for you."
+
+  utter_provide_delivery_info:
+  - text: "Your order will be delivered in 2 days."
+  - text: "You can return the wrong order at any post office."
+  - text: "If you can't find your delivered order, please ask your neighbors or check around your house."
+
+
+
 
 session_config:
   session_expiration_time: 60
